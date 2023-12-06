@@ -15,7 +15,7 @@ public class MemberService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public boolean checkDuplicateMember(String username) {
-        return true;
+        return memberRepository.existsByUsername(username);
     }
 
     public Member join(Member member) {
