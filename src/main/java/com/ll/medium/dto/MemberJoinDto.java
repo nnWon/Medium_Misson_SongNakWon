@@ -22,11 +22,7 @@ public class MemberJoinDto {
 
 
     public Member toEntity() {
-        return Member.builder()
-                .username(username)
-                .password(password)
-                .email(email)
-                .build();
+        return new Member(username,password,email);
     }
 
     public boolean isNotMatchPasswords() {
