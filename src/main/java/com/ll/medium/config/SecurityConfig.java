@@ -2,6 +2,8 @@ package com.ll.medium.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -25,11 +27,23 @@ public class SecurityConfig {
         //커스텀 로그인 페이지 등록
         http.formLogin(form -> form.loginPage("/member/login"));
 
+        http.logout(httpSecurityLogoutConfigurer -> httpSecurityLogoutConfigurer
+                //로그아웃 URL을 설정 (기본값은 /logout)
+                .logoutUrl("/member/logout")
+                //로그아웃이 성공하면, / 로 리다이렉트
+                .logoutSuccessUrl("/")
+        );
+
         return http.build();
     }
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+        return authenticationConfiguration.getAuthenticationManager();
     }
 }
