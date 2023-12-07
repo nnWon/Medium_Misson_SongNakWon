@@ -14,9 +14,17 @@ public class SecurityConfig {
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-        http.csrf((csrf) -> csrf.disable()); //CSRF 비활성화
+        //CSRF 비활성화
+        http.csrf((csrf) -> csrf.disable());
 
-        http.authorizeHttpRequests((authorizeHttpRequests) -> authorizeHttpRequests.requestMatchers(new AntPathRequestMatcher("/**")).permitAll());
+        //HttpServletRequest를 사용하는 요청에 대해 접근제한을 하겠다.
+        http.authorizeHttpRequests((authorizeHttpRequests) -> authorizeHttpRequests
+                //해당 경로 요청은 인증없이 접근을 허가한다.
+                .requestMatchers(new AntPathRequestMatcher("/**")).permitAll());
+
+        //커스텀 로그인 페이지 등록
+        http.formLogin(form -> form.loginPage("/member/login"));
+
         return http.build();
     }
 
