@@ -7,6 +7,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 @Builder
 @NoArgsConstructor
@@ -22,14 +25,14 @@ public class Member extends BaseEntity {
     private String password;
     private String email;
 
-    @Enumerated(value = EnumType.STRING)
-    private UserRole role;
+    @ElementCollection(fetch = FetchType.LAZY)
+    private Set<MemberRole> roleSet = new HashSet<>();
 
     public void changeToEncodedPassword(String encodedPassword) {
         this.password = encodedPassword;
     }
 
-    public void addRole(UserRole userRole) {
-        this.role = userRole;
+    public void addRole(MemberRole memberRole) {
+        this.roleSet.add(memberRole);
     }
 }

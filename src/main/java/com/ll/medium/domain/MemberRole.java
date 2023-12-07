@@ -1,5 +1,5 @@
 package com.ll.medium.domain;
 
-public enum UserRole {
+public enum MemberRole {
     ROLE_USER, ROLE_ADMIN
 }

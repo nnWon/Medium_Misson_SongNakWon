@@ -1,7 +1,7 @@
 package com.ll.medium.service;
 
 import com.ll.medium.domain.Member;
-import com.ll.medium.domain.UserRole;
+import com.ll.medium.domain.MemberRole;
 import com.ll.medium.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -21,7 +21,7 @@ public class MemberService {
     public Member join(Member member) {
         String encodedPassword = bCryptPasswordEncoder.encode(member.getPassword());
         member.changeToEncodedPassword(encodedPassword);
-        member.addRole(UserRole.ROLE_USER);
+        member.addRole(MemberRole.ROLE_USER);
         return memberRepository.save(member);
     }
 }
