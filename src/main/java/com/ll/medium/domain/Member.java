@@ -25,6 +25,7 @@ public class Member extends BaseEntity {
     private String email;
 
     @ElementCollection(fetch = FetchType.LAZY)
+    @Enumerated(value = EnumType.STRING)
     private Set<MemberRole> roleSet = new HashSet<>();
 
     public Member(String username, String password, String email) {
