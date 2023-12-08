@@ -1,0 +1,32 @@
+<html layout:decorate="~{layout/layout}">
+<div layout:fragment="content">
+    <div class="container max-w-7xl mx-auto mt-8">
+        <div class="mb-4">
+            <h1 class="text-3xl font-semibold text-center text-purple-700">최신 게시글</h1>
+            <div class="flex justify-end">
+                <button class="btn btn-primary">게시글 작성</button>
+            </div>
+        </div>
+            <div class="overflow-x-auto">
+                <table class="table">
+                    <!-- head -->
+                    <thead>
+                    <tr>
+                        <th>번호</th>
+                        <th>제목</th>
+                        <th>작성일자</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="post,loop : ${recentPosts}">
+                        <th th:text="${post.id}"></th>
+                        <td>
+                            <a th:href="@{|/post/${post.id}|}" th:text="${post.title}"></a>
+                        </td>
+                        <td th:text="${#temporals.format(post.createdDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+    </div>
+</div>
