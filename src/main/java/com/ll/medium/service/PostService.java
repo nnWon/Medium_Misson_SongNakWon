@@ -16,4 +16,8 @@ public class PostService {
     public List<Post> recentList() {
         return postRepository.findFirst30ByOrderByCreatedDateDesc();
     }
+
+    public List<Post> publishedList(){
+        return postRepository.findByIsPublishedTrue();
+    }
 }

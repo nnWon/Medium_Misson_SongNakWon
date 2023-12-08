@@ -25,4 +25,11 @@ public class PostController {
         model.addAttribute("recentPosts", recentPosts);
         return "recentPostList";
     }
+
+    @GetMapping("/list")
+    public String posts(Model model){
+        List<Post> publishedPosts = postService.publishedList();
+        model.addAttribute("posts", publishedPosts);
+        return "postList";
+    }
 }

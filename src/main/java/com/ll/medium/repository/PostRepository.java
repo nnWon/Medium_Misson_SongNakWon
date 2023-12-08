@@ -7,4 +7,7 @@ import java.util.List;
 
 public interface PostRepository extends JpaRepository<Post, Long> {
     List<Post> findFirst30ByOrderByCreatedDateDesc();
+
+    List<Post> findByIsPublishedTrue();
+
 }
