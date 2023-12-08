@@ -19,7 +19,7 @@ public class PostController {
 
     private final PostService postService;
 
-    @GetMapping("/")
+    @GetMapping()
     public String LatestPosts(Model model){
         List<Post> recentPosts = postService.recentList();
         model.addAttribute("recentPosts", recentPosts);
