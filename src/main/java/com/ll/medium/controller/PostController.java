@@ -4,6 +4,7 @@ import com.ll.medium.config.security.CustomUserDetails;
 import com.ll.medium.domain.Member;
 import com.ll.medium.domain.Post;
 import com.ll.medium.service.PostService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -32,21 +33,19 @@ public class PostController {
     }
 
     @GetMapping("/list")
-    public String posts(Model model){
+    public String posts(HttpServletRequest request, Model model){
         List<Post> publishedPosts = postService.publishedList();
         model.addAttribute("posts", publishedPosts);
+        model.addAttribute("url", request.getRequestURI());
         return "postList";
     }
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/myList")
-    public String myPosts(@AuthenticationPrincipal CustomUserDetails user, Model model){
-        log.info("user={}",user);
-        log.info("user.member={}",user.getMember());
-        log.info("user.member.getId={}",user.getMember().getId());
-        log.info("user.member.username={}",user.getMember().getUsername());
+    public String myPosts(@AuthenticationPrincipal CustomUserDetails user, HttpServletRequest request,Model model){
         List<Post> myPosts = postService.myList(user.getMember().getId());
         model.addAttribute("posts", myPosts);
+        model.addAttribute("url", request.getRequestURI());
         return "postList";
     }
 }

@@ -1,5 +1,9 @@
 <html layout:decorate="~{layout/layout}">
 <div layout:fragment="content" class="container max-w-2xl mx-auto m-8">
+    <h1 class="text-3xl font-semibold text-center text-purple-700">
+        <div th:if="${url== '/post/list'}" th:text="|전체 공개 게시글|"></div>
+        <div th:if="${url== '/post/myList'}" th:text="|나의 게시글|"></div>
+    </h1>
     <div class="overflow-x-auto">
         <table class="table">
             <!-- head -->
