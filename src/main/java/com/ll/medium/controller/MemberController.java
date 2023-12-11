@@ -1,8 +1,8 @@
 package com.ll.medium.controller;
 
 import com.ll.medium.domain.Member;
-import com.ll.medium.dto.MemberJoinDto;
-import com.ll.medium.dto.MemberLoginDto;
+import com.ll.medium.dto.MemberJoinFormDto;
+import com.ll.medium.dto.MemberLoginFormDto;
 import com.ll.medium.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,41 +22,41 @@ public class MemberController {
     private final MemberService memberService;
 
     @GetMapping("/join")
-    public String joinForm(MemberJoinDto memberJoinDto) {
+    public String joinForm(MemberJoinFormDto memberJoinFormDto) {
         return "joinForm";
     }
 
     @PostMapping("/join")
-    public String join(@Validated MemberJoinDto memberJoinDto, BindingResult bindingResult) {
+    public String join(@Validated MemberJoinFormDto memberJoinFormDto, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
             return "joinForm";
         }
 
-        if (memberJoinDto.isNotMatchPasswords()) {
+        if (memberJoinFormDto.isNotMatchPasswords()) {
             //Todo:오류메시지 한 곳에 모아서 정리하기
-            bindingResult.reject(memberJoinDto.getPasswordConfirm(), "비밀번호을 확인하세요.");
+            bindingResult.reject(memberJoinFormDto.getPasswordConfirm(), "비밀번호을 확인하세요.");
             return "joinForm";
         }
 
-        if (memberService.checkDuplicateMember(memberJoinDto.getUsername())) {
-            bindingResult.reject(memberJoinDto.getUsername(), "이미 존재하는 아이디입니다.");
+        if (memberService.checkDuplicateMember(memberJoinFormDto.getUsername())) {
+            bindingResult.reject(memberJoinFormDto.getUsername(), "이미 존재하는 아이디입니다.");
             return "joinForm";
         }
-        Member member = memberJoinDto.toEntity();
+        Member member = memberJoinFormDto.toEntity();
         memberService.join(member);
 
         return "redirect:/member/login";
     }
 
     @GetMapping("/login")
-    public String loginForm(MemberLoginDto memberLoginDto) {
+    public String loginForm(MemberLoginFormDto memberLoginFormDto) {
         return "loginForm";
     }
 
     @PostMapping("/login")
-    public String login(MemberLoginDto memberLoginDto) {
-        log.info("memberLoginDto={}", memberLoginDto);
+    public String login(MemberLoginFormDto memberLoginFormDto) {
+        log.info("memberLoginDto={}", memberLoginFormDto);
         return "loginForm";
     }
 }

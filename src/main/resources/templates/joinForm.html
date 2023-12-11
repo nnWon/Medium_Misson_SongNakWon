@@ -3,7 +3,7 @@
     <div class="relative flex flex-col justify-center h-screen overflow-hidden">
         <div class="w-full p-6 m-auto bg-white rounded-md shadow-md lg:max-w-lg">
             <h1 class="text-3xl font-semibold text-center text-purple-700">회원가입</h1>
-            <form th:action="@{/member/join}" th:object="${memberJoinDto}" method="post" class="space-y-4">
+            <form th:action="@{/member/join}" th:object="${memberJoinFormDto}" method="post" class="space-y-4">
                 <!-- 에러 메세지 -->
                 <div th:replace="~{error/errorForm :: formErrorsFragment}"></div>
                 <!-- -->

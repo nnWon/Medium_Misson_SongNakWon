@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class MemberLoginDto {
+public class MemberLoginFormDto {
     @NotEmpty
     private String username;
     @NotEmpty

@@ -8,7 +8,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class MemberJoinDto {
+public class MemberJoinFormDto {
 
     @NotEmpty
     private String username;
