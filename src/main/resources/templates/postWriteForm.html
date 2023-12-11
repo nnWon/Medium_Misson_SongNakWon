@@ -6,6 +6,10 @@
 
     <form th:action="@{/post/write}" th:object="${postWriteFormDto}" method="post">
 
+        <!-- 에러 메세지 -->
+        <div th:replace="~{error/errorForm :: formErrorsFragment}"></div>
+        <!-- -->
+
         <label class="label-text text-lg" for="subject">제목</label>
         <input type="text" th:field="*{title}" id="subject" placeholder="제목을 입력하세요."
                class="input input-bordered w-full mb-3"/>
