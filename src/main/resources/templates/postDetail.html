@@ -1,0 +1,14 @@
+<html layout:decorate="~{layout/layout}">
+<div layout:fragment="content">
+    <h2 class="text-4xl font-bold py-2" th:text="${post.title}"></h2>
+    <div class="divider"></div>
+    <div class="card my-8 bg-base-100 shadow-xl">
+        <div class="card-body">
+            <p th:text="${post.body}"></p>
+            <div class="card-actions justify-end">
+                <div class="badge badge-ghost"
+                     th:text="${#temporals.format(post.createdDate, 'yyyy-MM-dd HH:mm:ss')}"></div>
+            </div>
+        </div>
+    </div>
+</div>

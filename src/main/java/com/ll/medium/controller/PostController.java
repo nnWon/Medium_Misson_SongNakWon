@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
@@ -26,14 +27,14 @@ public class PostController {
     private final PostService postService;
 
     @GetMapping()
-    public String LatestPosts(Model model){
+    public String LatestPosts(Model model) {
         List<Post> recentPosts = postService.recentList();
         model.addAttribute("recentPosts", recentPosts);
         return "recentPostList";
     }
 
     @GetMapping("/list")
-    public String posts(HttpServletRequest request, Model model){
+    public String posts(HttpServletRequest request, Model model) {
         List<Post> publishedPosts = postService.publishedList();
         model.addAttribute("posts", publishedPosts);
         model.addAttribute("url", request.getRequestURI());
@@ -42,10 +43,18 @@ public class PostController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/myList")
-    public String myPosts(@AuthenticationPrincipal CustomUserDetails user, HttpServletRequest request,Model model){
+    public String myPosts(@AuthenticationPrincipal CustomUserDetails user, HttpServletRequest request, Model model) {
         List<Post> myPosts = postService.myList(user.getMember().getId());
         model.addAttribute("posts", myPosts);
         model.addAttribute("url", request.getRequestURI());
         return "postList";
+    }
+
+    @GetMapping("/{postId}")
+    public String postDetail(@PathVariable("postId") Long postId, Model model) {
+        //Todo: 포스트없는 경우, 던질 예외 정하기
+        Post post = postService.findPost(postId).orElseThrow();
+        model.addAttribute("post", post);
+        return "postDetail";
     }
 }
