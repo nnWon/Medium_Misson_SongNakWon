@@ -10,9 +10,9 @@ import java.util.List;
 public interface PostRepository extends JpaRepository<Post, Long> {
     List<Post> findFirst30ByOrderByCreatedDateDesc();
 
-    List<Post> findByIsPublishedTrue();
+    List<Post> findByIsPublishedTrueOrderByCreatedDateDesc();
 
-    @Query("select p from Post p where p.member.id = :memberId")
+    @Query("select p from Post p where p.member.id = :memberId order by p.createdDate desc")
     List<Post> findMyPosts(@Param("memberId") Long memberId);
 
 }

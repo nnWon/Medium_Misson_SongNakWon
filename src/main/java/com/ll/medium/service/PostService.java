@@ -19,7 +19,7 @@ public class PostService {
     }
 
     public List<Post> publishedList(){
-        return postRepository.findByIsPublishedTrue();
+        return postRepository.findByIsPublishedTrueOrderByCreatedDateDesc();
     }
 
     public List<Post> myList(Long memberId) {
