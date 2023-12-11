@@ -11,4 +11,16 @@
             </div>
         </div>
     </div>
+    <!-- 수정과 삭제 버튼 -->
+    <div sec:authorize="isAuthenticated()" th:if="${#authentication.getPrincipal().getUsername == post.member.username}"
+         class="my-3 flex justify-end space-x-4">
+
+        <a th:href="@{|/post/${post.id}/modify|}" class="btn btn-sm btn-outline-secondary"
+           th:text="수정"></a>
+
+        <a th:href="@{|/post/${post.id}/delete|}" class="btn btn-sm btn-outline-secondary"
+           th:text="삭제"></a>
+    </div>
+    <!-- 수정과 삭제 버튼 -->
+
 </div>
