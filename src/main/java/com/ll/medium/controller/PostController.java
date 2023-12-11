@@ -3,6 +3,7 @@ package com.ll.medium.controller;
 import com.ll.medium.config.security.CustomUserDetails;
 import com.ll.medium.domain.Member;
 import com.ll.medium.domain.Post;
+import com.ll.medium.dto.PostWriteFormDto;
 import com.ll.medium.service.PostService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -56,5 +57,11 @@ public class PostController {
         Post post = postService.findPost(postId).orElseThrow();
         model.addAttribute("post", post);
         return "postDetail";
+    }
+
+    @GetMapping("/write")
+    public String writeForm(PostWriteFormDto postWriteFormDto) {
+
+        return "postWriteForm.html";
     }
 }
