@@ -1,7 +1,6 @@
 package com.ll.medium.controller;
 
 import com.ll.medium.config.security.CustomUserDetails;
-import com.ll.medium.domain.Member;
 import com.ll.medium.domain.Post;
 import com.ll.medium.dto.PostWriteFormDto;
 import com.ll.medium.service.PostService;
@@ -10,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -59,9 +57,9 @@ public class PostController {
         return "postDetail";
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/write")
     public String writeForm(PostWriteFormDto postWriteFormDto) {
-
-        return "postWriteForm.html";
+        return "postWriteForm";
     }
 }
