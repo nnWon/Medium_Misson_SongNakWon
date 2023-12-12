@@ -138,4 +138,23 @@ public class PostController {
         return "redirect:/post/{postId}";
 
     }
+
+    @PreAuthorize("isAuthenticated()")
+    @DeleteMapping("/{postId}/delete")
+    public String delete(@PathVariable("postId") Long postId, @AuthenticationPrincipal CustomUserDetails user,
+                         HttpServletResponse response) throws IOException {
+
+        //Todo: 포스트없는 경우, 던질 예외 정하기
+        Post post = postService.findPost(postId).orElseThrow();
+        Member loginMember = user.getMember();
+
+        //로그인한 유저와 게시글 작성자가 다르다면, 403 상태코드 전달
+        if (!loginMember.isSameMember(post.getMember())) {
+            response.sendError(HttpServletResponse.SC_FORBIDDEN, "해당 게시글의 삭제 권한이 없습니다.");
+        }
+
+        postService.deletePost(postId);
+
+        return "redirect:/";
+    }
 }

@@ -1,4 +1,5 @@
 <html layout:decorate="~{layout/layout}">
+
 <div layout:fragment="content">
 
     <div class="relative">
@@ -19,15 +20,17 @@
     </div>
 
     <!-- 수정과 삭제 버튼 -->
-    <div sec:authorize="isAuthenticated()" th:if="${#authentication.getPrincipal().getUsername == post.member.username}"
-         class="my-3 flex justify-end space-x-4">
+    <div sec:authorize="isAuthenticated()" th:if="${#authentication.getPrincipal().getUsername == post.member.username}" class="my-3 flex justify-end space-x-4">
 
         <a th:href="@{|/post/${post.id}/modify|}" class="btn btn-sm btn-outline-secondary"
            th:text="수정"></a>
 
-        <a th:href="@{|/post/${post.id}/delete|}" class="btn btn-sm btn-outline-secondary"
-           th:text="삭제"></a>
+        <form th:action="@{|/post/${post.id}/delete|}" th:method="delete">
+            <input type="submit" value="삭제" class="btn btn-sm btn-outline-secondary">
+        </form>
+
     </div>
     <!-- 수정과 삭제 버튼 -->
-
 </div>
+
+</html>

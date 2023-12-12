@@ -45,4 +45,9 @@ public class PostService {
         Post post = postRepository.findById(postId).get();
         post.change(title, body); //더티체킹을 통해 업데이트
     }
+
+    @Transactional
+    public void deletePost(Long postId) {
+        postRepository.deleteById(postId);
+    }
 }
