@@ -1,7 +1,13 @@
 <html layout:decorate="~{layout/layout}">
 <div layout:fragment="content">
-    <h2 class="text-4xl font-bold py-2" th:text="${post.title}"></h2>
+
+    <div class="relative">
+        <h2 class="text-4xl font-bold py-2" th:text="${post.title}"></h2>
+        <div th:if="${!post.published}" class="badge badge-accent absolute bottom-0 right-0">회원전용</div>
+    </div>
+
     <div class="divider"></div>
+
     <div class="card my-8 bg-base-100 shadow-xl">
         <div class="card-body">
             <p th:text="${post.body}"></p>
@@ -11,6 +17,7 @@
             </div>
         </div>
     </div>
+
     <!-- 수정과 삭제 버튼 -->
     <div sec:authorize="isAuthenticated()" th:if="${#authentication.getPrincipal().getUsername == post.member.username}"
          class="my-3 flex justify-end space-x-4">
