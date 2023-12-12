@@ -48,7 +48,7 @@ public class PostController {
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/myList")
     public String myPosts(@AuthenticationPrincipal CustomUserDetails user, HttpServletRequest request, Model model) {
-        List<Post> myPosts = postService.myList(user.getMember().getId());
+        List<Post> myPosts = postService.findPosts(user.getMember().getId());
         model.addAttribute("posts", myPosts);
         model.addAttribute("url", request.getRequestURI());
         return "postList";

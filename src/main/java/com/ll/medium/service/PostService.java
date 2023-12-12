@@ -2,7 +2,6 @@ package com.ll.medium.service;
 
 import com.ll.medium.domain.Post;
 import com.ll.medium.repository.PostRepository;
-import jakarta.validation.constraints.NotEmpty;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,8 +24,8 @@ public class PostService {
         return postRepository.findByIsPublishedTrueOrderByCreatedDateDesc();
     }
 
-    public List<Post> myList(Long memberId) {
-        return postRepository.findMyPosts(memberId);
+    public List<Post> findPosts(Long memberId) {
+        return postRepository.findPostsByMemberId(memberId);
     }
 
     public Optional<Post> findPost(Long postId) {
