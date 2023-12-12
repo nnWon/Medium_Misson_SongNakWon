@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -54,9 +55,15 @@ public class PostController {
     }
 
     @GetMapping("/{postId}")
-    public String postDetail(@PathVariable("postId") Long postId, Model model) {
+    public String postDetail(@PathVariable("postId") Long postId, Authentication authentication, Model model) {
         //Todo: 포스트없는 경우, 던질 예외 정하기
         Post post = postService.findPost(postId).orElseThrow();
+
+        //공개게시글이 아니고, 로그인하지 않은 사용자일 경우
+        if (!post.isPublished() && (authentication == null || !authentication.isAuthenticated())) {
+            return "redirect:/member/login";
+        }
+
         model.addAttribute("post", post);
         return "postDetail";
     }
