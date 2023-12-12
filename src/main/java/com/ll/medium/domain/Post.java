@@ -31,4 +31,9 @@ public class Post extends BaseEntity {
     public void addMember(Member member) {
         this.member = member;
     }
+
+    public void change(String title, String body) {
+        this.title = title;
+        this.body = body;
+    }
 }

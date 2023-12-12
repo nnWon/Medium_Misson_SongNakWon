@@ -34,6 +34,10 @@ public class Member extends BaseEntity {
         this.email = email;
     }
 
+    public boolean isSameMember(Member member){
+        return this.id.equals(member.getId());
+    }
+
     public void changeToEncodedPassword(String encodedPassword) {
         this.password = encodedPassword;
     }

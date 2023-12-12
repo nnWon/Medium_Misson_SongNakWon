@@ -1,10 +1,12 @@
 package com.ll.medium.controller;
 
 import com.ll.medium.config.security.CustomUserDetails;
+import com.ll.medium.domain.Member;
 import com.ll.medium.domain.Post;
 import com.ll.medium.dto.PostWriteFormDto;
 import com.ll.medium.service.PostService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -13,12 +15,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -63,16 +63,17 @@ public class PostController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/write")
-    public String writeForm(PostWriteFormDto postWriteFormDto) {
+    public String writeForm(PostWriteFormDto postWriteFormDto, HttpServletRequest request, Model model) {
+        model.addAttribute("url", request.getRequestURI());
         return "postWriteForm";
     }
 
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/write")
-    public String write(@Validated PostWriteFormDto postWriteFormDto, BindingResult bindingResult,
-                        @AuthenticationPrincipal CustomUserDetails user, RedirectAttributes redirectAttributes) {
+    public String write(@Validated PostWriteFormDto postWriteFormDto, BindingResult bindingResult, @AuthenticationPrincipal CustomUserDetails user,
+                        RedirectAttributes redirectAttributes) {
 
-        if (bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             return "postWriteForm";
         }
 
@@ -82,6 +83,52 @@ public class PostController {
         Long savedPostId = postService.savePost(post);
 
         redirectAttributes.addAttribute("postId", savedPostId);
+
         return "redirect:/post/{postId}";
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/{postId}/modify")
+    public String writeForm(PostWriteFormDto postWriteFormDto, @PathVariable("postId") Long postId, @AuthenticationPrincipal CustomUserDetails user,
+                            HttpServletRequest request, HttpServletResponse response, Model model) throws IOException {
+
+        //Todo: 포스트없는 경우, 던질 예외 정하기
+        Post post = postService.findPost(postId).orElseThrow();
+        Member loginMember = user.getMember();
+
+        //로그인한 유저와 게시글 작성자가 다르다면, 403 상태코드 전달
+        if (!loginMember.isSameMember(post.getMember())) {
+            response.sendError(HttpServletResponse.SC_FORBIDDEN, "해당 게시글의 수정 권한이 없습니다.");
+        }
+
+        postWriteFormDto.setTitle(post.getTitle());
+        postWriteFormDto.setBody(post.getBody());
+        postWriteFormDto.setIsPublished(post.isPublished());
+
+        model.addAttribute("url", request.getRequestURI());
+
+        return "postWriteForm";
+
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @PutMapping("/{postId}/modify")
+    public String write(PostWriteFormDto postWriteFormDto, @PathVariable("postId") Long postId, @AuthenticationPrincipal CustomUserDetails user,
+                        HttpServletResponse response, RedirectAttributes redirectAttributes) throws IOException {
+
+        //Todo: 포스트없는 경우, 던질 예외 정하기
+        Post post = postService.findPost(postId).orElseThrow();
+        Member loginMember = user.getMember();
+
+        //로그인한 유저와 게시글 작성자가 다르다면, 403 상태코드 전달
+        if (!loginMember.isSameMember(post.getMember())) {
+            response.sendError(HttpServletResponse.SC_FORBIDDEN, "해당 게시글의 수정 권한이 없습니다.");
+        }
+
+        postService.updatePost(postId, postWriteFormDto.getTitle(), postWriteFormDto.getBody());
+
+        redirectAttributes.addAttribute("postId", postId);
+        return "redirect:/post/{postId}";
+
     }
 }
