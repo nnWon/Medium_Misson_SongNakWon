@@ -58,4 +58,10 @@ public class PostService {
         Member member = memberRepository.findByUsername(username).orElseThrow();
         return postRepository.findPostsByMemberId(member.getId());
     }
+
+    @Transactional
+    public void increaseViews(Long postId) {
+        Post post = postRepository.findById(postId).get();
+        post.increaseViews(); //더티체킹을 통해 업데이트
+    }
 }

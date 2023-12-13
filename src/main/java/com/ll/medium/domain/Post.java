@@ -4,6 +4,7 @@ import com.ll.medium.domain.base.BaseEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 
 @Entity
 @Getter
@@ -18,6 +19,9 @@ public class Post extends BaseEntity {
     private String body;
 
     private boolean isPublished;
+
+    @ColumnDefault("0")
+    private int views;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Member member;
@@ -35,5 +39,9 @@ public class Post extends BaseEntity {
     public void change(String title, String body) {
         this.title = title;
         this.body = body;
+    }
+
+    public void increaseViews() {
+        this.views += 1;
     }
 }

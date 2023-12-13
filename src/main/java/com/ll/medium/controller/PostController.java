@@ -63,6 +63,10 @@ public class PostController {
             return "redirect:/member/login";
         }
 
+        //조회수 증가
+        //Todo:새로고침시 조회수 계속 증가하는 것 방지하기
+        postService.increaseViews(postId);
+
         model.addAttribute("post", post);
         return "postDetail";
     }
