@@ -33,8 +33,8 @@ public class PostController {
     @GetMapping()
     public String LatestPosts(Model model) {
         List<Post> recentPosts = postService.recentList();
-        model.addAttribute("recentPosts", recentPosts);
-        return "recentPostList";
+        model.addAttribute("posts", recentPosts);
+        return "postList/recentPostList";
     }
 
     @GetMapping("/list")
@@ -42,16 +42,15 @@ public class PostController {
         List<Post> publishedPosts = postService.publishedList();
         model.addAttribute("posts", publishedPosts);
         model.addAttribute("url", request.getRequestURI());
-        return "postList";
+        return "postList/myPostList";
     }
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/myList")
-    public String myPosts(@AuthenticationPrincipal CustomUserDetails user, HttpServletRequest request, Model model) {
+    public String myPosts(@AuthenticationPrincipal CustomUserDetails user, Model model) {
         List<Post> myPosts = postService.findPosts(user.getMember().getId());
         model.addAttribute("posts", myPosts);
-        model.addAttribute("url", request.getRequestURI());
-        return "postList";
+        return "postList/myPostList";
     }
 
     @GetMapping("/{postId}")
@@ -166,6 +165,6 @@ public class PostController {
         model.addAttribute("posts", postsByAnotherMember);
         model.addAttribute("anotherUsername", username);
 
-        return "anotherMemberPostList";
+        return "postList/anotherMemberPostList";
     }
 }
