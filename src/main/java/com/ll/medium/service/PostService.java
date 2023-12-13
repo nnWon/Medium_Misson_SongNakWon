@@ -1,6 +1,8 @@
 package com.ll.medium.service;
 
+import com.ll.medium.domain.Member;
 import com.ll.medium.domain.Post;
+import com.ll.medium.repository.MemberRepository;
 import com.ll.medium.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,6 +17,7 @@ import java.util.Optional;
 public class PostService {
 
     private final PostRepository postRepository;
+    private final MemberRepository memberRepository;
 
     public List<Post> recentList() {
         return postRepository.findFirst30ByOrderByCreatedDateDesc();
@@ -48,5 +51,11 @@ public class PostService {
     @Transactional
     public void deletePost(Long postId) {
         postRepository.deleteById(postId);
+    }
+
+    public List<Post> findPostsByAnotherMember(String username) {
+        //Todo: 해당 멤버없는 경우, 던질 예외 정하기
+        Member member = memberRepository.findByUsername(username).orElseThrow();
+        return postRepository.findPostsByMemberId(member.getId());
     }
 }

@@ -157,4 +157,15 @@ public class PostController {
 
         return "redirect:/";
     }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/list/{username}")
+    public String antherMembersPost(@PathVariable("username") String username, Model model) {
+
+        List<Post> postsByAnotherMember = postService.findPostsByAnotherMember(username);
+        model.addAttribute("posts", postsByAnotherMember);
+        model.addAttribute("anotherUsername", username);
+
+        return "anotherMemberPostList";
+    }
 }
