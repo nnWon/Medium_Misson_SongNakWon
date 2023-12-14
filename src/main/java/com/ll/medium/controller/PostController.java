@@ -1,7 +1,6 @@
 package com.ll.medium.controller;
 
 import com.ll.medium.config.security.CustomUserDetails;
-import com.ll.medium.domain.Comment;
 import com.ll.medium.domain.Member;
 import com.ll.medium.domain.Post;
 import com.ll.medium.dto.CommentForm;
@@ -77,7 +76,7 @@ public class PostController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/write")
-    public String writeForm(PostWriteFormDto postWriteFormDto, HttpServletRequest request, Model model) {
+    public String modifyForm(PostWriteFormDto postWriteFormDto, HttpServletRequest request, Model model) {
         model.addAttribute("url", request.getRequestURI());
         return "postWriteForm";
     }
@@ -103,8 +102,8 @@ public class PostController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/{postId}/modify")
-    public String writeForm(PostWriteFormDto postWriteFormDto, @PathVariable("postId") Long postId, @AuthenticationPrincipal CustomUserDetails user,
-                            HttpServletRequest request, HttpServletResponse response, Model model) throws IOException {
+    public String modifyForm(PostWriteFormDto postWriteFormDto, @PathVariable("postId") Long postId, @AuthenticationPrincipal CustomUserDetails user,
+                             HttpServletRequest request, HttpServletResponse response, Model model) throws IOException {
 
         //Todo: 포스트없는 경우, 던질 예외 정하기
         Post post = postService.findPost(postId).orElseThrow();
@@ -127,7 +126,7 @@ public class PostController {
 
     @PreAuthorize("isAuthenticated()")
     @PutMapping("/{postId}/modify")
-    public String write(PostWriteFormDto postWriteFormDto, @PathVariable("postId") Long postId, @AuthenticationPrincipal CustomUserDetails user,
+    public String modify(PostWriteFormDto postWriteFormDto, @PathVariable("postId") Long postId, @AuthenticationPrincipal CustomUserDetails user,
                         HttpServletResponse response, RedirectAttributes redirectAttributes) throws IOException {
 
         //Todo: 포스트없는 경우, 던질 예외 정하기
