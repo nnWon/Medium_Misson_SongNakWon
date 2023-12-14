@@ -59,6 +59,9 @@
     </div>
 
     <form th:action="@{|/post/${post.id}/comment/write|}" th:object="${commentForm}" method="post" class="space-y-4 my-8">
+        <!-- 에러 메세지 -->
+        <div th:replace="~{error/errorForm :: formErrorsFragment}"></div>
+        <!-- -->
         <textarea th:field="*{body}" id="body" class="w-full p-2 border rounded-md"></textarea>
         <input type="submit" value="댓글등록"  class="btn btn-sm btn-primary my-8">
     </form>
