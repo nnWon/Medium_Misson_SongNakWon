@@ -28,4 +28,9 @@ public class CommentService {
         Comment comment = commentRepository.findById(commentId).get();
         comment.change(body); //더티체킹을 통해 업데이트
     }
+
+    @Transactional
+    public void deleteComment(Long commentId) {
+        commentRepository.deleteById(commentId);
+    }
 }
