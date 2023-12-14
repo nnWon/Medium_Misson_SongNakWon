@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.header.writers.frameoptions.XFrameOptionsHeaderWriter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
@@ -20,6 +21,9 @@ public class SecurityConfig {
 
         //CSRF 비활성화
         http.csrf((csrf) -> csrf.disable());
+        http.headers((headers) -> headers
+                .addHeaderWriter(new XFrameOptionsHeaderWriter(
+                        XFrameOptionsHeaderWriter.XFrameOptionsMode.SAMEORIGIN)));
 
         //HttpServletRequest를 사용하는 요청에 대해 접근제한을 하겠다.
         http.authorizeHttpRequests((authorizeHttpRequests) -> authorizeHttpRequests
