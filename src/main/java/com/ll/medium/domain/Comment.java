@@ -30,4 +30,8 @@ public class Comment {
         this.post = post;
         this.body = body;
     }
+
+    public void change(String body) {
+        this.body = body;
+    }
 }

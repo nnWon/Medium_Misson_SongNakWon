@@ -60,10 +60,10 @@
         <div sec:authorize="isAuthenticated()" th:if="${#authentication.getPrincipal().getUsername == comment.member.username}"
              class="my-3 absolute bottom-0 right-0 flex space-x-4">
 
-            <a th:href="@{|/post/${post.id}/comment/modify|}" class="btn btn-xs btn-outline-secondary"
+            <a th:href="@{|/post/${post.id}/comment/${comment.id}/modify|}" class="btn btn-xs btn-outline-secondary"
                th:text="수정"></a>
 
-            <form th:action="@{|/post/${post.id}/comment/delete|}" th:method="delete">
+            <form th:action="@{|/post/${post.id}/comment/${comment.id}/delete|}" th:method="delete">
                 <input type="submit" value="삭제" class="btn btn-xs btn-outline-secondary">
             </form>
 
