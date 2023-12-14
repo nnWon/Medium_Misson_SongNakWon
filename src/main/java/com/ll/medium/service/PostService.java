@@ -64,4 +64,8 @@ public class PostService {
         Post post = postRepository.findById(postId).get();
         post.increaseViews(); //더티체킹을 통해 업데이트
     }
+
+    public Post findPostWithComment(Long postId) {
+        return postRepository.findPostFetchJoinComment(postId);
+    }
 }

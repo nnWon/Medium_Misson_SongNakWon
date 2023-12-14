@@ -1,8 +1,10 @@
 package com.ll.medium.controller;
 
 import com.ll.medium.config.security.CustomUserDetails;
+import com.ll.medium.domain.Comment;
 import com.ll.medium.domain.Member;
 import com.ll.medium.domain.Post;
+import com.ll.medium.dto.CommentForm;
 import com.ll.medium.dto.PostWriteFormDto;
 import com.ll.medium.service.PostService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -54,7 +56,8 @@ public class PostController {
     }
 
     @GetMapping("/{postId}")
-    public String postDetail(@PathVariable("postId") Long postId, Authentication authentication, Model model) {
+    public String postDetail(@PathVariable("postId") Long postId, Authentication authentication,
+                             CommentForm commentForm, Model model) {
         //Todo: 포스트없는 경우, 던질 예외 정하기
         Post post = postService.findPost(postId).orElseThrow();
 
@@ -66,8 +69,9 @@ public class PostController {
         //조회수 증가
         //Todo:새로고침시 조회수 계속 증가하는 것 방지하기
         postService.increaseViews(postId);
+        Post postWithComment = postService.findPostWithComment(postId);
 
-        model.addAttribute("post", post);
+        model.addAttribute("post", postWithComment);
         return "postDetail";
     }
 

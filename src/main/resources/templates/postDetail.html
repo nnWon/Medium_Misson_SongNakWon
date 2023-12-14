@@ -49,5 +49,20 @@
     </div>
     <!-- 추천 버튼 끝-->
 
+    <!-- 댓글 -->
+    <div class="divider"></div>
+
+    <h5 class="text-xl font-semibold mb-4" th:text="|${#lists.size(post.comments)}개의 댓글이 있습니다.|"></h5>
+    <div class="chat chat-start my-3" th:each="comment,loop:${post.comments}">
+        <div class="chat-header" th:text="${comment.member.username}"></div>
+        <div class="chat-bubble" th:text="${comment.body}"></div>
+    </div>
+
+    <form th:action="@{|/post/${post.id}/comment/write|}" th:object="${commentForm}" method="post" class="space-y-4 my-8">
+        <textarea th:field="*{body}" id="body" class="w-full p-2 border rounded-md"></textarea>
+        <input type="submit" value="댓글등록"  class="btn btn-sm btn-primary my-8">
+    </form>
+    <!-- 댓글 끝-->
+
 </div>
 </html>

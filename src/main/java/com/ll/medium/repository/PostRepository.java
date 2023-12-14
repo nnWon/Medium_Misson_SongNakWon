@@ -15,4 +15,6 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     @Query("select p from Post p where p.member.id = :memberId order by p.createdDate desc")
     List<Post> findPostsByMemberId(@Param("memberId") Long memberId);
 
+    @Query("select p from Post p left join fetch p.comments where p.id = :postId")
+    Post findPostFetchJoinComment(@Param("postId") Long postId);
 }
