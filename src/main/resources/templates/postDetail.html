@@ -53,10 +53,24 @@
     <div class="divider"></div>
 
     <h5 class="text-xl font-semibold mb-4" th:text="|${#lists.size(post.comments)}개의 댓글이 있습니다.|"></h5>
-    <div class="chat chat-start my-3" th:each="comment,loop:${post.comments}">
+    <div class="chat chat-start my-3 relative" th:each="comment,loop:${post.comments}">
         <div class="chat-header" th:text="${comment.member.username}"></div>
         <div class="chat-bubble" th:text="${comment.body}"></div>
+        <!-- 댓글 수정과 삭제 버튼 -->
+        <div sec:authorize="isAuthenticated()" th:if="${#authentication.getPrincipal().getUsername == comment.member.username}"
+             class="my-3 absolute bottom-0 right-0 flex space-x-4">
+
+            <a th:href="@{|/post/${post.id}/comment/modify|}" class="btn btn-xs btn-outline-secondary"
+               th:text="수정"></a>
+
+            <form th:action="@{|/post/${post.id}/comment/delete|}" th:method="delete">
+                <input type="submit" value="삭제" class="btn btn-xs btn-outline-secondary">
+            </form>
+
+        </div>
+        <!-- 댓글 수정과 삭제 버튼 -->
     </div>
+
 
     <form th:action="@{|/post/${post.id}/comment/write|}" th:object="${commentForm}" method="post" class="space-y-4 my-8">
         <!-- 에러 메세지 -->
