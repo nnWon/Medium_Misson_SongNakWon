@@ -1,0 +1,6 @@
+<html layout:decorate="~{layout/layout}">
+<div layout:fragment="content">
+    <div sec:authorize="isAnonymous()">방문자</div>
+    <div sec:authorize="isAuthenticated()" th:text="${#authentication.principal.username}"></div>
+    <div>님 환영합니다.</div>
+</div>
