@@ -25,6 +25,8 @@ public class Post extends BaseEntity {
 
     private boolean isPublished;
 
+    private boolean isMembership;
+
     @ColumnDefault("0")
     private int views;
 
@@ -34,10 +36,11 @@ public class Post extends BaseEntity {
     @OneToMany(mappedBy = "post")
     private List<Comment> comments = new ArrayList<>();
 
-    public Post(String title, String body, Boolean isPublished) {
+    public Post(String title, String body, Boolean isPublished, Boolean isMembership) {
         this.title = title;
         this.body = body;
         this.isPublished = isPublished;
+        this.isMembership = isMembership;
     }
 
     public void addMember(Member member) {
