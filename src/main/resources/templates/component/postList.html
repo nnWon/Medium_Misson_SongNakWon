@@ -5,6 +5,7 @@
         <tr>
             <th>번호</th>
             <th>제목</th>
+            <th></th>
             <th>작성일시</th>
             <th></th>
         </tr>
@@ -16,6 +17,9 @@
                 <a th:href="@{|/post/${post.id}|}" th:text="${post.title}"></a>
                 <span class="badge text-xs" th:if="${#lists.size(post.comments) > 0}"
                       th:text="${#lists.size(post.comments)}"></span>
+            </td>
+            <td>
+                <div th:if="${!post.published}" class="badge badge-accent text-xs">회원전용</div>
             </td>
             <td th:text="${#temporals.format(post.createdDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
 
