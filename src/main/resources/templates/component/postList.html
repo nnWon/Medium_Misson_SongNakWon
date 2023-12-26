@@ -20,6 +20,7 @@
             </td>
             <td>
                 <div th:if="${!post.published}" class="badge badge-accent text-xs">회원전용</div>
+                <div th:if="${post.membership}" class="badge badge-warning text-xs">멤버십전용</div>
             </td>
             <td th:text="${#temporals.format(post.createdDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
 
