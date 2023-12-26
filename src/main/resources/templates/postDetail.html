@@ -14,7 +14,16 @@
 
     <div class="card my-8 bg-base-100 shadow-xl">
         <div class="card-body">
-            <p th:text="${post.body}"></p>
+            <!-- 게시글이 멤버십 전용인 경우 -->
+            <div th:if="${post.membership}">
+                <!-- 로그인 안함 -->
+                <p sec:authorize="isAnonymous() or !hasRole('ROLE_PAID')">이 글은 유료멤버십전용 입니다.</p>
+                <!-- 로그인했고, 멤버십-->
+                <p sec:authorize="isAuthenticated() and hasRole('ROLE_PAID')"th:text="${post.body}"></p>
+            </div>
+            <div th:unless="${post.membership}">
+                <p th:text="${post.body}"></p>
+            </div>
             <div class="card-actions justify-end">
                 <div class="badge badge-ghost"
                      th:text="${#temporals.format(post.createdDate, 'yyyy-MM-dd HH:mm:ss')}"></div>
@@ -60,7 +69,8 @@
         <div class="chat-header" th:text="${comment.member.username}"></div>
         <div class="chat-bubble" th:text="${comment.body}"></div>
         <!-- 댓글 수정과 삭제 버튼 -->
-        <div sec:authorize="isAuthenticated()" th:if="${#authentication.getPrincipal().getUsername == comment.member.username}"
+        <div sec:authorize="isAuthenticated()"
+             th:if="${#authentication.getPrincipal().getUsername == comment.member.username}"
              class="my-3 absolute bottom-0 right-0 flex space-x-4">
 
             <a th:href="@{|/post/${post.id}/comment/${comment.id}/modify|}" class="btn btn-xs btn-outline-secondary"
@@ -75,12 +85,13 @@
     </div>
 
 
-    <form th:action="@{|/post/${post.id}/comment/write|}" th:object="${commentForm}" method="post" class="space-y-4 my-8">
+    <form th:action="@{|/post/${post.id}/comment/write|}" th:object="${commentForm}" method="post"
+          class="space-y-4 my-8">
         <!-- 에러 메세지 -->
         <div th:replace="~{error/errorForm :: formErrorsFragment}"></div>
         <!-- -->
         <textarea th:field="*{body}" id="body" class="w-full p-2 border rounded-md"></textarea>
-        <input type="submit" value="댓글등록"  class="btn btn-sm btn-primary my-8">
+        <input type="submit" value="댓글등록" class="btn btn-sm btn-primary my-8">
     </form>
     <!-- 댓글 끝-->
 
