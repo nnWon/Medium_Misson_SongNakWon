@@ -40,6 +40,10 @@ public class Member extends BaseEntity {
         return this.id.equals(member.getId());
     }
 
+    public void convertToMembershipMember(){
+        this.isPaid = true;
+    }
+
     public void changeToEncodedPassword(String encodedPassword) {
         this.password = encodedPassword;
     }
