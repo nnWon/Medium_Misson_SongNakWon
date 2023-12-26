@@ -89,7 +89,6 @@ public class PostController {
         if (bindingResult.hasErrors()) {
             return "postWriteForm";
         }
-
         Post post = postWriteFormDto.toEntity();
         post.addMember(user.getMember());
 
@@ -117,6 +116,7 @@ public class PostController {
         postWriteFormDto.setTitle(post.getTitle());
         postWriteFormDto.setBody(post.getBody());
         postWriteFormDto.setIsPublished(post.isPublished());
+        postWriteFormDto.setIsMembership(post.isMembership());
 
         model.addAttribute("url", request.getRequestURI());
 
@@ -138,7 +138,7 @@ public class PostController {
             response.sendError(HttpServletResponse.SC_FORBIDDEN, "해당 게시글의 수정 권한이 없습니다.");
         }
 
-        postService.updatePost(postId, postWriteFormDto.getTitle(), postWriteFormDto.getBody());
+        postService.updatePost(postId, postWriteFormDto.getTitle(), postWriteFormDto.getBody(),postWriteFormDto.getIsPublished(),postWriteFormDto.getIsMembership());
 
         redirectAttributes.addAttribute("postId", postId);
         return "redirect:/post/{postId}";

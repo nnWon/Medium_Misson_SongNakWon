@@ -42,10 +42,10 @@ public class PostService {
     }
 
     @Transactional
-    public void updatePost(Long postId, String title, String body) {
+    public void updatePost(Long postId, String title, String body, Boolean isPublished, Boolean isMembership) {
 
         Post post = postRepository.findById(postId).get();
-        post.change(title, body); //더티체킹을 통해 업데이트
+        post.change(title, body,isPublished,isMembership); //더티체킹을 통해 업데이트
     }
 
     @Transactional

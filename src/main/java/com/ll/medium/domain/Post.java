@@ -47,9 +47,11 @@ public class Post extends BaseEntity {
         this.member = member;
     }
 
-    public void change(String title, String body) {
+    public void change(String title, String body, Boolean isPublished, Boolean isMembership) {
         this.title = title;
         this.body = body;
+        this.isPublished = isPublished;
+        this.isMembership = isMembership;
     }
 
     public void increaseViews() {
