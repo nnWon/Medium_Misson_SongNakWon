@@ -30,7 +30,7 @@
             </div>
         </div>
 
-        <div class="card w-96 bg-base-200 shadow-xl w-full">
+        <div sec:authorize="hasRole('ROLE_PAID')" class="card w-96 bg-base-200 shadow-xl w-full">
             <div class="card-body">
                 <div class="flex justify-between items-center">
                     <p>멤버십 전용인가요?</p>
