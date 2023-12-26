@@ -6,6 +6,7 @@
             <th>번호</th>
             <th>제목</th>
             <th></th>
+            <th>작성자</th>
             <th>작성일시</th>
             <th></th>
         </tr>
@@ -22,6 +23,7 @@
                 <div th:if="${!post.published}" class="badge badge-accent text-xs">회원전용</div>
                 <div th:if="${post.membership}" class="badge badge-warning text-xs">멤버십전용</div>
             </td>
+            <td th:text="${post.member.username}"></td>
             <td th:text="${#temporals.format(post.createdDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
 
             <td class="text-sm font-medium leading-5 text-center whitespace-no-wrap border-b border-gray-200 ">
