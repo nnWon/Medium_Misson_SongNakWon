@@ -28,6 +28,8 @@ public class Member extends BaseEntity {
     @Enumerated(value = EnumType.STRING)
     private Set<MemberRole> roleSet = new HashSet<>();
 
+    private boolean isPaid;
+
     public Member(String username, String password, String email) {
         this.username = username;
         this.password = password;
