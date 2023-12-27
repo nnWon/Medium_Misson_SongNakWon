@@ -41,9 +41,10 @@ public class PostController {
     @GetMapping("/list")
     public String posts(HttpServletRequest request, Model model) {
         List<Post> publishedPosts = postService.publishedList();
+        log.info("publishedPosts.size={}",publishedPosts.size());
         model.addAttribute("posts", publishedPosts);
         model.addAttribute("url", request.getRequestURI());
-        return "postList/myPostList";
+        return "postList/publicPostList";
     }
 
     @PreAuthorize("isAuthenticated()")

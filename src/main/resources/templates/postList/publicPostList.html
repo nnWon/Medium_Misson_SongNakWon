@@ -1,0 +1,5 @@
+<html layout:decorate="~{layout/layout}">
+<div layout:fragment="content">
+    <h1 class="mb-4 text-3xl font-semibold text-center text-purple-700">공개 게시글</h1>
+    <div th:replace="/component/postList :: postTable"></div>
+</div>

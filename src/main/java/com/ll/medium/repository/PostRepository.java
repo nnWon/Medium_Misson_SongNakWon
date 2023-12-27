@@ -11,7 +11,7 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     @Query("select p from Post p left join fetch p.member m left join fetch p.comments c order by p.createdDate desc limit 30")
     List<Post> findFirst30ByOrderByCreatedDateDesc();
 
-    @Query("select p from Post p left join fetch p.member m join fetch p.comments c where p.isPublished = true order by p.createdDate desc")
+    @Query("select p from Post p left join fetch p.member m left join fetch p.comments c where p.isPublished = true order by p.createdDate desc")
     List<Post> findByIsPublishedTrueOrderByCreatedDateDesc();
 
     @Query("select p from Post p where p.member.id = :memberId order by p.createdDate desc")
