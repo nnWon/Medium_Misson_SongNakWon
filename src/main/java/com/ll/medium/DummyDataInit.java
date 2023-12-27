@@ -31,10 +31,12 @@ public class DummyDataInit {
         memberService.join(user2);
         memberService.join(user3);
 
-        Member[] membershipMembers = new Member[100];
+
+        int dummyDataSize = 100;
+        Member[] membershipMembers = new Member[dummyDataSize];
 
         // 유료멤버십 회원 100개 생성
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < dummyDataSize; i++) {
             Member membershipMember = new Member("membership" + (i + 1), "1234", "membership@gmail.com");
             membershipMember.convertToMembershipMember();
             memberService.join(membershipMember);
@@ -42,8 +44,8 @@ public class DummyDataInit {
         }
 
         Random random = new Random();
-        for (int i = 0; i < 100; i++) {
-            int randomIndex = random.nextInt(100);
+        for (int i = 0; i < dummyDataSize; i++) {
+            int randomIndex = random.nextInt(dummyDataSize);
             Member randomMembershipMember = membershipMembers[randomIndex];
 
             Post post = new Post("Title" + (i + 1), "body" + (i + 1), random.nextBoolean(), random.nextBoolean());
