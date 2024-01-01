@@ -1,5 +1,5 @@
 <html layout:decorate="~{layout/layout}">
 <div layout:fragment="content">
-    <h1 th:text="|${anotherUsername}의 게시글|" class="mb-4 text-3xl font-semibold text-center text-purple-700"></h1>
-    <div th:replace="/component/postList :: postTable"></div>
+    <h1 th:text="|${anotherUsername}의 게시글|" class="mb-4 text-2xl text-center font-medium text-blue-500"></h1>
+    <div th:replace="component/postList :: postTable"></div>
 </div>
