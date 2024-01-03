@@ -10,6 +10,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -39,11 +41,12 @@ public class PostController {
     }
 
     @GetMapping("/list")
-    public String posts(HttpServletRequest request, Model model) {
-        List<Post> publishedPosts = postService.publishedList();
-        log.info("publishedPosts.size={}",publishedPosts.size());
-        model.addAttribute("posts", publishedPosts);
+    public String posts(HttpServletRequest request, Model model, Pageable pageable) {
+        Page<Post> page = postService.publishedList(pageable);
+        log.info("publishedPosts={}",page);
+        model.addAttribute("posts", page.getContent());
         model.addAttribute("url", request.getRequestURI());
+        model.addAttribute("paging", page);
         return "postList/publicPostList";
     }
 

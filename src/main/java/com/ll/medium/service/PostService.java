@@ -5,6 +5,8 @@ import com.ll.medium.domain.Post;
 import com.ll.medium.repository.MemberRepository;
 import com.ll.medium.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -67,5 +69,9 @@ public class PostService {
 
     public Post findPostWithComment(Long postId) {
         return postRepository.findPostFetchJoinComment(postId);
+    }
+
+    public Page<Post> publishedList(Pageable pageable) {
+        return postRepository.findByIsPublishedTrueOrderByCreatedDateDesc(pageable);
     }
 }

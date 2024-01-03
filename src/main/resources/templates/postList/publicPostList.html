@@ -2,4 +2,17 @@
 <div layout:fragment="content">
     <h1 class="mb-4 text-2xl text-center font-medium text-blue-500">공개 게시글</h1>
     <div th:replace="component/postList :: postTable"></div>
+    <!-- 페이징처리 시작 -->
+    <div class="join flex justify-center py-2" th:if="${!paging.isEmpty()}">
+        <a class="join-item btn" th:classappend="${!paging.hasPrevious} ? 'disabled'"
+           th:href="@{|?page=${paging.number-1}|}">«</a>
+        <div th:each="page: ${#numbers.sequence(0, paging.totalPages-1)}"
+             th:if="${page >= paging.number-5 and page <= paging.number+5}">
+            <a class="join-item btn" th:classappend="${page == paging.number} ? 'btn-active'" th:text="${page}+1"
+               th:href="@{|?page=${page}|}"></a>
+        </div>
+        <a class="join-item btn btn" th:classappend="${!paging.hasNext} ? 'disabled'"
+           th:href="@{|?page=${paging.number+1}|}">»</a>
+    </div>
+    <!-- 페이징처리 끝 -->
 </div>
