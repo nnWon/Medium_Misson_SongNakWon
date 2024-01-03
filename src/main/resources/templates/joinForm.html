@@ -1,42 +1,56 @@
-<html layout:decorate="~{layout/layout}">
-<div layout:fragment="content">
-    <div class="relative flex flex-col justify-center h-screen overflow-hidden">
-        <div class="w-full p-6 m-auto bg-white rounded-md shadow-md lg:max-w-lg">
-            <h1 class="text-3xl font-semibold text-center text-purple-700">회원가입</h1>
-            <form th:action="@{/member/join}" th:object="${memberJoinFormDto}" method="post" class="space-y-4">
-                <!-- 에러 메세지 -->
-                <div th:replace="~{error/errorForm :: formErrorsFragment}"></div>
-                <!-- -->
-                <div>
-                    <label class="label" for="username">
-                        <span class="text-base label-text">사용자ID</span>
-                    </label>
-                    <input th:field="*{username}" id="username" type="text" class="w-full input input-bordered input-primary">
-                </div>
-                <div>
-                    <label class="label" for="password">
-                        <span class="text-base label-text">비밀번호</span>
-                    </label>
-                    <input th:field="*{password}" id="password" type="password" placeholder="******"
-                           class="w-full input input-bordered input-primary">
-                </div>
-                <div>
-                    <label class="label" for="passwordConfirm">
-                        <span class="text-base label-text">비밀번호 확인</span>
-                    </label>
-                    <input th:field="*{passwordConfirm}" id="passwordConfirm" type="password" placeholder="******"
-                           class="w-full input input-bordered input-primary">
-                </div>
-                <div>
-                    <label class="label" for="email">
-                        <span class="text-base label-text">이메일</span>
-                    </label>
-                    <input th:field="*{email}" id="email" type="email" class="w-full input input-bordered input-primary">
-                </div>
-                <div>
-                    <button class="btn btn-primary">회원가입</button>
-                </div>
-            </form>
-        </div>
+<!doctype html>
+<html lang="ko">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="/global.css">
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.0.8/dist/full.min.css" rel="stylesheet" type="text/css"/>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <title>Hello!</title>
+</head>
+<body>
+
+<div class="relative flex flex-col justify-center h-screen overflow-hidden">
+    <div class="w-full p-6 m-auto bg-white rounded-md shadow-md lg:max-w-lg">
+        <h1 class="text-3xl font-semibold text-center text-purple-700">회원가입</h1>
+        <form th:action="@{/member/join}" th:object="${memberJoinFormDto}" method="post" class="space-y-4">
+            <!-- 에러 메세지 -->
+            <div th:replace="~{error/errorForm :: formErrorsFragment}"></div>
+            <!-- -->
+            <div>
+                <label class="label" for="username">
+                    <span class="text-base label-text">사용자ID</span>
+                </label>
+                <input th:field="*{username}" id="username" type="text"
+                       class="w-full input input-bordered input-primary">
+            </div>
+            <div>
+                <label class="label" for="password">
+                    <span class="text-base label-text">비밀번호</span>
+                </label>
+                <input th:field="*{password}" id="password" type="password" placeholder="******"
+                       class="w-full input input-bordered input-primary">
+            </div>
+            <div>
+                <label class="label" for="passwordConfirm">
+                    <span class="text-base label-text">비밀번호 확인</span>
+                </label>
+                <input th:field="*{passwordConfirm}" id="passwordConfirm" type="password" placeholder="******"
+                       class="w-full input input-bordered input-primary">
+            </div>
+            <div>
+                <label class="label" for="email">
+                    <span class="text-base label-text">이메일</span>
+                </label>
+                <input th:field="*{email}" id="email" type="email" class="w-full input input-bordered input-primary">
+            </div>
+            <div>
+                <button class="btn btn-primary">회원가입</button>
+            </div>
+        </form>
     </div>
 </div>
+</body>
+</html>

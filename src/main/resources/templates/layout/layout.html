@@ -13,15 +13,13 @@
 <body>
 <nav class="container flex justify-around py-8 mx-auto bg-white">
     <div class="flex items-center">
-        <a class="btn btn-ghost text-xl">LOGO</a>
+        <a href="/" class="btn btn-ghost text-xl">LOGO</a>
     </div>
     <!-- left header section -->
     <div class="items-center hidden space-x-8 lg:flex">
-        <a href="">Home</a>
-        <a href="">About Us</a>
-        <a href="">Blogs</a>
-        <a href="">Our Team</a>
-        <a href="">Contact Us</a>
+        <a href="/">Home</a>
+        <a href="/post">최신 글</a>
+        <a href="/post/list">전체 글</a>
     </div>
     <!-- right header section -->
     <div class="flex items-center space-x-2">
@@ -39,8 +37,16 @@
                 </div>
             </div>
             <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
-                <li><a class="justify-between">마이페이지</a></li>
-                <li><a>Logout</a></li>
+                <!-- 로그인한 경우-->
+                <div sec:authorize="isAuthenticated()">
+                    <li><a href="/post/myList" class="justify-between">나의 게시글</a></li>
+                    <li><a href="/member/logout">로그아웃</a></li>
+                </div>
+                <div sec:authorize="isAnonymous()">
+                    <li><a href="/member/login" class="justify-between">로그인</a></li>
+                    <li><a href="/member/join">회원가입</a></li>
+                </div>
+
             </ul>
         </div>
     </div>
