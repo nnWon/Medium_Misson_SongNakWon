@@ -16,8 +16,8 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     @Query("select p from Post p left join fetch p.member m left join fetch p.comments c where p.isPublished = true order by p.createdDate desc")
     List<Post> findByIsPublishedTrueOrderByCreatedDateDesc();
 
-    @Query("select p from Post p left join fetch p.member m left join fetch p.comments c where p.isPublished = true order by p.createdDate desc")
-    Page<Post> findByIsPublishedTrueOrderByCreatedDateDesc(Pageable pageable);
+    @Query("select p from Post p left join fetch p.member m left join fetch p.comments c where p.isPublished = true")
+    Page<Post> findByIsPublishedTrue(Pageable pageable);
 
     @Query("select p from Post p where p.member.id = :memberId order by p.createdDate desc")
     List<Post> findPostsByMemberId(@Param("memberId") Long memberId);

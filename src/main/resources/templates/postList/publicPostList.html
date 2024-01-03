@@ -1,6 +1,18 @@
 <html layout:decorate="~{layout/layout}">
 <div layout:fragment="content">
     <h1 class="mb-4 text-2xl text-center font-medium text-blue-500">공개 게시글</h1>
+    <div class="text-right">
+        <div class="join join-vertical">
+            <a class="btn btn-sm btn-default join-item" role="button" th:href="@{|?page=${paging.number}&sort=createdDate,DESC|}">최신 순</a>
+            <a class="btn btn-sm btn-default join-item" role="button" th:href="@{|?page=${paging.number}&sort=createdDate,ASC|}">오래된 순</a>
+        </div>
+
+        <div class="join join-vertical">
+            <a class="btn btn-sm btn-default join-item" role="button" th:href="@{|?page=${paging.number}&sort=views,desc|}" href="">조회 수 높은 순</a>
+            <a class="btn btn-sm btn-default join-item" role="button" th:href="@{|?page=${paging.number}&sort=views|}"  href="">조회 수 낮은 순</a>
+        </div>
+
+    </div>
     <div th:replace="component/postList :: postTable"></div>
     <!-- 페이징처리 시작 -->
     <div class="join flex justify-center py-2" th:if="${!paging.isEmpty()}">

@@ -72,6 +72,6 @@ public class PostService {
     }
 
     public Page<Post> publishedList(Pageable pageable) {
-        return postRepository.findByIsPublishedTrueOrderByCreatedDateDesc(pageable);
+        return postRepository.findByIsPublishedTrue(pageable);
     }
 }
