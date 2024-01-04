@@ -32,7 +32,7 @@ public class DummyDataInit {
         memberService.join(user3);
 
 
-        int dummyDataSize = 10;
+        int dummyDataSize = 100;
         Member[] membershipMembers = new Member[dummyDataSize];
 
         // 유료멤버십 회원 100개 생성
