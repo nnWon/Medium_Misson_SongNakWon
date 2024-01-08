@@ -21,11 +21,20 @@
         <textarea th:field="*{body}" id="content" placeholder="내용을 입력하세요."
                   class="textarea textarea-bordered w-full mb-3"></textarea>
 
-        <div class="card w-96 bg-base-200 shadow-xl w-full">
+        <div class="card w-96 bg-base-200 shadow-xl w-full mb-3">
             <div class="card-body">
                 <div class="flex justify-between items-center">
                     <p>해당 글을 전체에게 공개할까요?</p>
                     <input type="checkbox" th:field="*{isPublished}" class="toggle toggle-primary"/>
+                </div>
+            </div>
+        </div>
+
+        <div sec:authorize="hasRole('ROLE_PAID')" class="card w-96 bg-base-200 shadow-xl w-full">
+            <div class="card-body">
+                <div class="flex justify-between items-center">
+                    <p>멤버십 전용인가요?</p>
+                    <input type="checkbox" th:field="*{isMembership}" class="toggle toggle-warning"/>
                 </div>
             </div>
         </div>

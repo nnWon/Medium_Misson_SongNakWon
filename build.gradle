@@ -28,6 +28,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     //Spring-Security
     implementation 'org.springframework.boot:spring-boot-starter-security'
+    //Spring-DevTools
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
     //Validation
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     //Lombok

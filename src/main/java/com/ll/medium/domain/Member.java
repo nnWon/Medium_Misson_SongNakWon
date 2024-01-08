@@ -28,6 +28,8 @@ public class Member extends BaseEntity {
     @Enumerated(value = EnumType.STRING)
     private Set<MemberRole> roleSet = new HashSet<>();
 
+    private boolean isPaid;
+
     public Member(String username, String password, String email) {
         this.username = username;
         this.password = password;
@@ -36,6 +38,10 @@ public class Member extends BaseEntity {
 
     public boolean isSameMember(Member member){
         return this.id.equals(member.getId());
+    }
+
+    public void convertToMembershipMember(){
+        this.isPaid = true;
     }
 
     public void changeToEncodedPassword(String encodedPassword) {

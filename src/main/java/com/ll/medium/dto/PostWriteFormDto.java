@@ -16,8 +16,9 @@ public class PostWriteFormDto {
     private String body;
 
     private Boolean isPublished;
+    private Boolean isMembership;
 
     public Post toEntity() {
-        return new Post(title, body, isPublished);
+        return new Post(title, body, isPublished,isMembership);
     }
 }

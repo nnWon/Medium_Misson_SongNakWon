@@ -10,6 +10,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -39,11 +43,17 @@ public class PostController {
     }
 
     @GetMapping("/list")
-    public String posts(HttpServletRequest request, Model model) {
-        List<Post> publishedPosts = postService.publishedList();
-        model.addAttribute("posts", publishedPosts);
+    public String posts(HttpServletRequest request, Model model,
+                        @PageableDefault(sort = "createdDate", direction = Sort.Direction.DESC) Pageable pageable,
+                        @RequestParam(defaultValue = "createdDate,DESC") String sort) {
+        Page<Post> page = postService.publishedList(pageable);
+        log.info("publishedPosts={}", page);
+        model.addAttribute("posts", page.getContent());
         model.addAttribute("url", request.getRequestURI());
-        return "postList/myPostList";
+        model.addAttribute("paging", page);
+        model.addAttribute("sort",sort);
+
+        return "postList/publicPostList";
     }
 
     @PreAuthorize("isAuthenticated()")
@@ -89,7 +99,6 @@ public class PostController {
         if (bindingResult.hasErrors()) {
             return "postWriteForm";
         }
-
         Post post = postWriteFormDto.toEntity();
         post.addMember(user.getMember());
 
@@ -117,6 +126,7 @@ public class PostController {
         postWriteFormDto.setTitle(post.getTitle());
         postWriteFormDto.setBody(post.getBody());
         postWriteFormDto.setIsPublished(post.isPublished());
+        postWriteFormDto.setIsMembership(post.isMembership());
 
         model.addAttribute("url", request.getRequestURI());
 
@@ -127,7 +137,7 @@ public class PostController {
     @PreAuthorize("isAuthenticated()")
     @PutMapping("/{postId}/modify")
     public String modify(PostWriteFormDto postWriteFormDto, @PathVariable("postId") Long postId, @AuthenticationPrincipal CustomUserDetails user,
-                        HttpServletResponse response, RedirectAttributes redirectAttributes) throws IOException {
+                         HttpServletResponse response, RedirectAttributes redirectAttributes) throws IOException {
 
         //Todo: 포스트없는 경우, 던질 예외 정하기
         Post post = postService.findPost(postId).orElseThrow();
@@ -138,7 +148,7 @@ public class PostController {
             response.sendError(HttpServletResponse.SC_FORBIDDEN, "해당 게시글의 수정 권한이 없습니다.");
         }
 
-        postService.updatePost(postId, postWriteFormDto.getTitle(), postWriteFormDto.getBody());
+        postService.updatePost(postId, postWriteFormDto.getTitle(), postWriteFormDto.getBody(), postWriteFormDto.getIsPublished(), postWriteFormDto.getIsMembership());
 
         redirectAttributes.addAttribute("postId", postId);
         return "redirect:/post/{postId}";

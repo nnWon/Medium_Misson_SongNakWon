@@ -5,6 +5,8 @@
         <tr>
             <th>번호</th>
             <th>제목</th>
+            <th></th>
+            <th>작성자</th>
             <th>작성일시</th>
             <th></th>
         </tr>
@@ -17,6 +19,11 @@
                 <span class="badge text-xs" th:if="${#lists.size(post.comments) > 0}"
                       th:text="${#lists.size(post.comments)}"></span>
             </td>
+            <td>
+                <div th:if="${!post.published}" class="badge badge-accent text-xs">회원전용</div>
+                <div th:if="${post.membership}" class="badge badge-warning text-xs">멤버십전용</div>
+            </td>
+            <td th:text="${post.member.username}"></td>
             <td th:text="${#temporals.format(post.createdDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
 
             <td class="text-sm font-medium leading-5 text-center whitespace-no-wrap border-b border-gray-200 ">
@@ -43,6 +50,7 @@
         </tbody>
     </table>
     <div class="flex">
-        <a th:href="@{/templates/postList/write}" class="btn btn-sm btn-active btn-primary my-8">글 작성하기</a>
+        <a th:href="@{/post/write}" class="btn btn-sm my-8">글 작성하기</a>
     </div>
+
 </div>
